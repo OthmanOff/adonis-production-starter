@@ -12,6 +12,7 @@ import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
 const ProjectsController = () => import('#controllers/projects_controller')
 import openapi from '../docs/openapi.ts'
+import { apiThrottle } from '#start/limiter'
 
 router.get('/openapi.json', async () => {
   return openapi
@@ -52,6 +53,7 @@ router
   })
   .use(middleware.auth())
   .prefix('/api/v1')
+  .use(apiThrottle)
 
 router.get('/health', async ({ response }) => {
   return response.ok({

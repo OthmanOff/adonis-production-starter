@@ -7,7 +7,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: adonis_starter
-
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -35,6 +36,7 @@ services:
       APP_KEY: ${APP_KEY}
       APP_URL: http://localhost:3333
 
+      LIMITER_STORE: memory
       LOG_LEVEL: info
       SESSION_DRIVER: cookie
       DB_HOST: postgres

@@ -55,4 +55,64 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
     }
   }
+  'projects.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/projects'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['index']>>>
+    }
+  }
+  'projects.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/projects'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/project').createProjectValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/project').createProjectValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'projects.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/projects/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['show']>>>
+    }
+  }
+  'projects.update': {
+    methods: ["PATCH"]
+    pattern: '/api/v1/projects/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/project').updateProjectValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/project').updateProjectValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'projects.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/projects/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/projects_controller').default['destroy']>>>
+    }
+  }
 }

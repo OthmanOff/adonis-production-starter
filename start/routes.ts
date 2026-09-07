@@ -10,7 +10,7 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
-
+const ProjectsController = () => import('#controllers/projects_controller')
 router.get('/', () => {
   return { hello: 'world' }
 })
@@ -34,4 +34,15 @@ router
       .as('profile')
       .use(middleware.auth())
   })
+  .prefix('/api/v1')
+
+router
+  .group(() => {
+    router.get('/projects', [ProjectsController, 'index'])
+    router.post('/projects', [ProjectsController, 'store'])
+    router.get('/projects/:id', [ProjectsController, 'show'])
+    router.patch('/projects/:id', [ProjectsController, 'update'])
+    router.delete('/projects/:id', [ProjectsController, 'destroy'])
+  })
+  .use(middleware.auth())
   .prefix('/api/v1')

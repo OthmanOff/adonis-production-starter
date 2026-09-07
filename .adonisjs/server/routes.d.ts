@@ -8,17 +8,33 @@ export type ScannedRoutes = {
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'profile.access_tokens.destroy': { paramsTuple?: []; params?: {} }
+    'projects.index': { paramsTuple?: []; params?: {} }
+    'projects.store': { paramsTuple?: []; params?: {} }
+    'projects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'projects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'projects.index': { paramsTuple?: []; params?: {} }
+    'projects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   HEAD: {
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'projects.index': { paramsTuple?: []; params?: {} }
+    'projects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'profile.access_tokens.destroy': { paramsTuple?: []; params?: {} }
+    'projects.store': { paramsTuple?: []; params?: {} }
+  }
+  PATCH: {
+    'projects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+  }
+  DELETE: {
+    'projects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

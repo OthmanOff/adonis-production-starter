@@ -35,6 +35,8 @@ jobs:
       HOST: 0.0.0.0
       PORT: 3333
 
+      SESSION_DRIVER: memory
+
       LOG_LEVEL: silent
 
       DB_HOST: 127.0.0.1

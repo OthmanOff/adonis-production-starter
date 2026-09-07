@@ -1,10 +1,15 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Project from '#models/project'
 import { createProjectValidator, updateProjectValidator } from '#validators/project'
+import ProjectPolicy from '#policies/project_policy'
 
 export default class ProjectsController {
   async index({ auth }: HttpContext) {
     const user = auth.getUserOrFail()
+
+    if (user.role === 'admin') {
+      return Project.query().orderBy('createdAt', 'desc')
+    }
 
     return Project.query().where('ownerId', user.id).orderBy('createdAt', 'desc')
   }
@@ -21,30 +26,18 @@ export default class ProjectsController {
     return response.created(project)
   }
 
-  async show({ auth, params, response }: HttpContext) {
-    const user = auth.getUserOrFail()
+  async show({ bouncer, params }: HttpContext) {
+    const project = await Project.findOrFail(params.id)
 
-    const project = await Project.query().where('id', params.id).where('ownerId', user.id).first()
-
-    if (!project) {
-      return response.notFound({
-        message: 'Project not found',
-      })
-    }
+    await bouncer.with(ProjectPolicy).authorize('view', project)
 
     return project
   }
 
-  async update({ auth, params, request, response }: HttpContext) {
-    const user = auth.getUserOrFail()
+  async update({ bouncer, params, request }: HttpContext) {
+    const project = await Project.findOrFail(params.id)
 
-    const project = await Project.query().where('id', params.id).where('ownerId', user.id).first()
-
-    if (!project) {
-      return response.notFound({
-        message: 'Project not found',
-      })
-    }
+    await bouncer.with(ProjectPolicy).authorize('update', project)
 
     const payload = await request.validateUsing(updateProjectValidator)
 
@@ -54,16 +47,10 @@ export default class ProjectsController {
     return project
   }
 
-  async destroy({ auth, params, response }: HttpContext) {
-    const user = auth.getUserOrFail()
+  async destroy({ bouncer, params, response }: HttpContext) {
+    const project = await Project.findOrFail(params.id)
 
-    const project = await Project.query().where('id', params.id).where('ownerId', user.id).first()
-
-    if (!project) {
-      return response.notFound({
-        message: 'Project not found',
-      })
-    }
+    await bouncer.with(ProjectPolicy).authorize('delete', project)
 
     await project.delete()
 

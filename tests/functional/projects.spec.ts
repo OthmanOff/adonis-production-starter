@@ -182,4 +182,30 @@ test.group('Projects', (group) => {
 
     assert.isNull(deletedProject)
   })
+
+  test('admin can access another user project', async ({ client }) => {
+    const admin = await User.create({
+      fullName: 'Admin',
+      email: 'admin@example.com',
+      password: 'secret123',
+      role: 'admin',
+    })
+
+    const user = await User.create({
+      fullName: 'User',
+      email: 'user@example.com',
+      password: 'secret123',
+      role: 'user',
+    })
+
+    const project = await Project.create({
+      name: 'User project',
+      ownerId: user.id,
+      status: 'active',
+    })
+
+    const response = await client.get(`/api/v1/projects/${project.id}`).loginAs(admin)
+
+    response.assertStatus(200)
+  })
 })

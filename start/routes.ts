@@ -46,3 +46,10 @@ router
   })
   .use(middleware.auth())
   .prefix('/api/v1')
+
+router.get('/health', async ({ response }) => {
+  return response.ok({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+  })
+})
